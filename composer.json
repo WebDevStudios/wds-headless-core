@@ -1,0 +1,13 @@
+{
+  "name": "webdevstudios/wds-headless-core",
+  "description": "A WordPress backend to power a Next.js frontend.",
+  "homepage": "https://github.com/WebDevStudios/nextjs-wordpress-starter",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "WebDevStudios",
+      "email": "contact@webdevstudios.com"
+    }
+  ]
+}
