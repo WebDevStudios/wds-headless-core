@@ -1,6 +1,6 @@
 # WDS Headless Core
 
-Turn WordPress into a Headless CMS. Please see <https://webdevstudios.github.io/nextjs-wordpress-starter/> for more information.
+The core WordPress plugin for the Next.js WordPress Starter. Please see <https://webdevstudios.github.io/nextjs-wordpress-starter/> for more information.
 
 ## Install
 
