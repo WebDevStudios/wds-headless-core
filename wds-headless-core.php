@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WDS Headless (Core)
  * Plugin URI: https://github.com/WebDevStudios/nextjs-wordpress-starter
- * Description: This plugin supports the JAMStack-powered frontend.
+ * Description: The core WordPress plugin for the Next.js WordPress Starter.
  * Author: WebDevStudios <contact@webdevstudios.com>
  * Author URI: https://webdevstudios.com
  * Version: 1.0.0
