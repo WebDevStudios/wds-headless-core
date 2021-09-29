@@ -1,0 +1,12 @@
+# os
+*~
+.DS_*
+.svn/
+.cvs/
+.hg/
+*.bak
+*.swp
+Thumbs.db
+
+# composer
+vendor/
