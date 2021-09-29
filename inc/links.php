@@ -132,3 +132,40 @@ function set_headless_rest_preview_link( WP_REST_Response $response, WP_Post $po
 }
 add_filter( 'rest_prepare_page', __NAMESPACE__ . '\set_headless_rest_preview_link', 10, 2 );
 add_filter( 'rest_prepare_post', __NAMESPACE__ . '\set_headless_rest_preview_link', 10, 2 );
+
+/**
+ * Redirects non-API requests for public URLs to the specified front-end URL.
+ *
+ * @see https://github.com/wpengine/faustjs/blob/canary/plugins/wpe-headless/includes/deny-public-access/callbacks.php
+ *
+ * @param object $query The current query.
+ *
+ * @return void
+ */
+function deny_public_access( $query ) {
+	if (
+		defined( 'DOING_CRON' ) ||
+		defined( 'REST_REQUEST' ) ||
+		is_admin() ||
+		is_customize_preview() ||
+		( function_exists( 'is_graphql_http_request' ) && is_graphql_http_request() ) || // From https://wordpress.org/plugins/wp-graphql/.
+		! empty( $query->query_vars['rest_oauth1'] ) || // From https://oauth1.wp-api.org/.
+		! property_exists( $query, 'request' ) ||
+		! HEADLESS_FRONTEND_URL
+	) {
+		return;
+	}
+
+	$frontend_uri = trailingslashit( HEADLESS_FRONTEND_URL );
+
+	// Get the request uri with query params.
+	$request_uri = home_url( add_query_arg( null, null ) );
+
+	$response_code = 302;
+	$redirect_url  = str_replace( trailingslashit( get_home_url() ), $frontend_uri, $request_uri );
+
+	header( 'X-Redirect-By: WDS Headless Core plugin' ); // For support teams. See https://developer.yoast.com/blog/x-redirect-by-header/.
+	header( 'Location: ' . esc_url_raw( $redirect_url ), true, $response_code );
+	exit;
+}
+add_action( 'parse_request', __NAMESPACE__ . '\deny_public_access', 99 );
