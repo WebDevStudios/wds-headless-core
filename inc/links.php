@@ -139,6 +139,7 @@ add_filter( 'rest_prepare_post', __NAMESPACE__ . '\set_headless_rest_preview_lin
  * Override links within post content on save to point to FE.
  *
  * @author WebDevStudios
+ * @since NEXT
  * @param int $post_id Post ID.
  */
 function override_post_links( $post_id ) {
