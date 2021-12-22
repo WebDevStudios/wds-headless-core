@@ -137,6 +137,7 @@ add_filter( 'rest_prepare_post', __NAMESPACE__ . '\set_headless_rest_preview_lin
  * Redirects non-API requests for public URLs to the specified front-end URL.
  *
  * @see https://github.com/wpengine/faustjs/blob/aaad74cd6edac536a1df405552256ca66575c8cd/plugins/wpe-headless/includes/deny-public-access/callbacks.php#L20
+ * @author WebDevStudios
  * @since NEXT
  * @param object $query The current query.
  */
