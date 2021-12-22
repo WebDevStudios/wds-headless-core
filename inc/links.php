@@ -159,6 +159,13 @@ function deny_public_access( $query ) {
 	// Get the request uri with query params.
 	$request_uri = home_url( add_query_arg( null, null ) );
 
+	// Return if dealing with upload URL.
+	$uploads_path = wp_upload_dir();
+
+	if ( false !== stristr( $request_uri, $uploads_path['baseurl'] ) ) {
+		return;
+	}
+
 	$response_code = 302;
 	$redirect_url  = str_replace( trailingslashit( get_home_url() ), $frontend_uri, $request_uri );
 
