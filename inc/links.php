@@ -109,18 +109,24 @@ function set_headless_rest_preview_link( WP_REST_Response $response, WP_Post $po
 		// Handle special-case pages.
 		$error_page = get_field( 'error_404_page', 'option' );
 
+		// Remove excess slash from end of frontend domain.
+		$base_url = rtrim( $base_url, '/' );
 
 		if ( $post->ID === $error_page->ID ) {
 
 			// Return 404 URL for error page.
 			$response->data['link'] = "{$base_url}/404";
 		} else {
+			$permalink = get_permalink( $post );
+			$site_url  = get_site_url();
 
-			// Remove excess slash from end of base URL.
-			$base_url = rtrim( $base_url, '/' );
+			// Replace site URL if present.
+			if ( false !== stristr( $permalink, $site_url ) ) {
+				$permalink = str_ireplace( $site_url, $base_url, $permalink );
+			}
 
 			// Return URL based on post name.
-			$response->data['link'] = "{$base_url}/{$post->post_name}";
+			$response->data['link'] = $permalink;
 		}
 	}
 
