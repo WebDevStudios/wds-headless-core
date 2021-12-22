@@ -107,14 +107,10 @@ function set_headless_rest_preview_link( WP_REST_Response $response, WP_Post $po
 		$base_url = HEADLESS_FRONTEND_URL;
 
 		// Handle special-case pages.
-		$homepage_id   = intval( get_field( 'homepage', 'option' ) );
-		$error_page_id = get_field( 'error_404_page', 'option' );
+		$error_page = get_field( 'error_404_page', 'option' );
 
-		if ( $post->ID === $homepage_id ) {
 
-			// Return root FE URL for homepage.
-			$response->data['link'] = $base_url;
-		} elseif ( $post->ID === $error_page_id ) {
+		if ( $post->ID === $error_page->ID ) {
 
 			// Return 404 URL for error page.
 			$response->data['link'] = "{$base_url}/404";
