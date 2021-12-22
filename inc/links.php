@@ -134,3 +134,60 @@ function set_headless_rest_preview_link( WP_REST_Response $response, WP_Post $po
 }
 add_filter( 'rest_prepare_page', __NAMESPACE__ . '\set_headless_rest_preview_link', 10, 2 );
 add_filter( 'rest_prepare_post', __NAMESPACE__ . '\set_headless_rest_preview_link', 10, 2 );
+
+/**
+ * Override links within post content on save to point to FE.
+ *
+ * @author WebDevStudios
+ * @param int $post_id Post ID.
+ */
+function override_post_links( $post_id ) {
+
+	// Unhook function to avoid infinite loop.
+	remove_action( 'save_post', __NAMESPACE__ . '\override_post_links' );
+
+	$post = get_post( $post_id );
+
+	if ( ! $post || ! defined( 'HEADLESS_FRONTEND_URL' ) ) {
+		return;
+	}
+
+	$post_content   = $post->post_content;
+	$backend_domain = get_site_url();
+
+	// Check if post content contains WP links.
+	if ( false === stripos( $post_content, $backend_domain ) ) {
+		return;
+	}
+
+	$frontend_domain  = HEADLESS_FRONTEND_URL;
+	$new_post_content = $post_content;
+
+	// Remove excess slash from end of frontend domain.
+	$frontend_domain = rtrim( $frontend_domain, '/' );
+
+	// Replace WP domain with FE domain.
+	$new_post_content = str_ireplace( $backend_domain, $frontend_domain, $post_content );
+
+	// Revert media links.
+	$upload_dir       = wp_upload_dir();
+	$upload_dir       = str_ireplace( $backend_domain, '', $upload_dir['baseurl'] );
+	$new_post_content = str_ireplace( "{$frontend_domain}{$upload_dir}", "{$backend_domain}{$upload_dir}", $new_post_content );
+
+	// Revert plugin links.
+	$plugin_dir       = defined( 'WP_PLUGIN_URL' ) ? WP_PLUGIN_URL : '/wp-content/plugins';
+	$plugin_dir       = str_ireplace( $backend_domain, '', $plugin_dir );
+	$new_post_content = str_ireplace( "{$frontend_domain}{$plugin_dir}", "{$backend_domain}{$plugin_dir}", $new_post_content );
+
+	// Save post.
+	wp_update_post(
+		[
+			'ID'           => $post_id,
+			'post_content' => wp_slash( $new_post_content ),
+		]
+	);
+
+	// Re-hook function.
+	add_action( 'save_post', __NAMESPACE__ . '\override_post_links' );
+}
+add_action( 'save_post', __NAMESPACE__ . '\override_post_links' );
