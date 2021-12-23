@@ -193,7 +193,7 @@ function override_post_links( $post_id ) {
 }
 add_action( 'save_post', __NAMESPACE__ . '\override_post_links' );
 
-/*
+/**
  * Redirects non-API requests for public URLs to the specified front-end URL.
  *
  * @see https://github.com/wpengine/faustjs/blob/aaad74cd6edac536a1df405552256ca66575c8cd/plugins/wpe-headless/includes/deny-public-access/callbacks.php#L20
