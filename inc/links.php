@@ -192,3 +192,46 @@ function override_post_links( $post_id ) {
 	add_action( 'save_post', __NAMESPACE__ . '\override_post_links' );
 }
 add_action( 'save_post', __NAMESPACE__ . '\override_post_links' );
+
+/*
+ * Redirects non-API requests for public URLs to the specified front-end URL.
+ *
+ * @see https://github.com/wpengine/faustjs/blob/aaad74cd6edac536a1df405552256ca66575c8cd/plugins/wpe-headless/includes/deny-public-access/callbacks.php#L20
+ * @author WebDevStudios
+ * @since NEXT
+ * @param object $query The current query.
+ */
+function deny_public_access( $query ) {
+	if (
+		defined( 'DOING_CRON' ) ||
+		defined( 'REST_REQUEST' ) ||
+		is_admin() ||
+		is_customize_preview() ||
+		( function_exists( 'is_graphql_http_request' ) && is_graphql_http_request() ) || // From https://wordpress.org/plugins/wp-graphql/.
+		! empty( $query->query_vars['rest_oauth1'] ) || // From https://oauth1.wp-api.org/.
+		! property_exists( $query, 'request' ) ||
+		! HEADLESS_FRONTEND_URL
+	) {
+		return;
+	}
+
+	$frontend_uri = trailingslashit( HEADLESS_FRONTEND_URL );
+
+	// Get the request uri with query params.
+	$request_uri = home_url( add_query_arg( null, null ) );
+
+	// Return if dealing with upload URL.
+	$uploads_path = wp_upload_dir();
+
+	if ( false !== stristr( $request_uri, $uploads_path['baseurl'] ) ) {
+		return;
+	}
+
+	$response_code = 302;
+	$redirect_url  = str_replace( trailingslashit( get_home_url() ), $frontend_uri, $request_uri );
+
+	header( 'X-Redirect-By: WDS Headless Core plugin' ); // For support teams. See https://developer.yoast.com/blog/x-redirect-by-header/.
+	header( 'Location: ' . esc_url_raw( $redirect_url ), true, $response_code );
+	exit;
+}
+add_action( 'parse_request', __NAMESPACE__ . '\deny_public_access', 99 );
