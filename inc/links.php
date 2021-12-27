@@ -139,7 +139,7 @@ add_filter( 'rest_prepare_post', __NAMESPACE__ . '\set_headless_rest_preview_lin
  * Override links within post content on save to point to FE.
  *
  * @author WebDevStudios
- * @since NEXT
+ * @since 1.1.0
  * @param int $post_id Post ID.
  */
 function override_post_links( $post_id ) {
@@ -198,7 +198,7 @@ add_action( 'save_post', __NAMESPACE__ . '\override_post_links' );
  *
  * @see https://github.com/wpengine/faustjs/blob/aaad74cd6edac536a1df405552256ca66575c8cd/plugins/wpe-headless/includes/deny-public-access/callbacks.php#L20
  * @author WebDevStudios
- * @since NEXT
+ * @since 1.1.0
  * @param object $query The current query.
  */
 function deny_public_access( $query ) {
