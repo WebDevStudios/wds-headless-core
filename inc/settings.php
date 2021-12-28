@@ -34,6 +34,31 @@ function register_settings() {
 
 }
 add_action( 'init', __NAMESPACE__ . '\register_settings' );
+
+/** Register headless settings fields.
+ *
+ * @author WebDevStudios
+ * @since NEXT
+ */
+function add_settings_fields() {
+	// Custom page options.
+	add_settings_section(
+		'pages',
+		esc_html__( 'Custom Page Options', 'wds-headless-core' ),
+		null,
+		'headless-config'
+	);
+
+	// Error 404 page.
+	add_settings_field(
+		'error_404_page',
+		esc_html__( '404 Page', 'wds-headless-core' ),
+		__NAMESPACE__ . '\display_error_404_page',
+		'headless-config',
+		'pages'
+	);
+}
+add_action( 'admin_init', __NAMESPACE__ . '\add_settings_fields' );
 /**
  * Customize ACF JSON loader.
  *
