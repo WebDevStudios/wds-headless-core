@@ -122,7 +122,8 @@ function display_error_404_page() {
 	}
 
 	$field_id      = 'error_404_page';
-	$options       = get_option( WDS_HEADLESS_CORE_OPTION_NAME );
+	$option_name = WDS_HEADLESS_CORE_OPTION_NAME;
+	$options       = get_option( $option_name );
 	$selected_page = $options[ $field_id ] ?? '';
 	$pages         = get_posts(
 		[
@@ -135,7 +136,7 @@ function display_error_404_page() {
 
 	<div>
 	<p style="margin: 0 0 1rem 0; font-style: italic;"><?php esc_html_e( 'Optional. Select a custom 404 page. The content entered on this page will appear on the headless frontend.', 'wds-headless-core' ); ?></p>
-	<select id="<?php echo esc_attr( $field_id ); ?>" name="<?php echo esc_attr( $field_id ); ?>">
+	<select id="<?php echo esc_attr( $field_id ); ?>" name="<?php echo esc_attr( "{$option_name}[$field_id]" ); ?>">
 		<option><?php esc_html_e( '-- Select page --', 'wds-headless-core' ); ?></option>
 
 		<?php foreach ( $pages as $page ) : ?>
