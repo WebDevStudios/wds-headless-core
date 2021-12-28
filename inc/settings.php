@@ -136,9 +136,9 @@ function display_error_404_page() {
 	<select id="<?php echo esc_attr( $field_id ); ?>" name="<?php echo esc_attr( $field_id ); ?>">
 		<option><?php esc_html_e( '-- Select page --', 'wds-headless-core' ); ?></option>
 
-	<?php foreach ( $pages as $page ) : ?>
+		<?php foreach ( $pages as $page ) : ?>
 
-		<option value="<?php esc_attr( $page->ID ); ?>" <?php echo esc_html( $selected_page === $page->ID ? 'checked="checked"' : '' ); ?>><?php echo esc_attr( $page->post_title ); ?></option>
+			<option value="<?php echo esc_attr( $page->ID ); ?>" <?php echo esc_html( $selected_page === $page->ID ? 'checked="checked"' : '' ); ?>><?php echo esc_attr( $page->post_title ); ?></option>
 
 		<?php endforeach; ?>
 
