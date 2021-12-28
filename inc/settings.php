@@ -53,6 +53,37 @@ function add_settings_link() {
 }
 add_action( 'admin_menu', __NAMESPACE__ . '\add_settings_link' );
 
+/**
+ * Display headless settings page.
+ *
+ * @author WebDevStudios
+ * @since NEXT
+ */
+function display_settings_page() {
+	if ( ! defined( 'WDS_HEADLESS_CORE_OPTION_NAME' ) ) {
+		return;
+	}
+	?>
+
+	<div class="wrap">
+		<h2><?php esc_html_e( 'Headless Config', 'wds-headless-core' ); ?></h2>
+
+		<div>
+			<form method="post" action="options.php" enctype="multipart/form-data">
+
+				<?php
+					settings_fields( WDS_HEADLESS_CORE_OPTION_NAME );
+					do_settings_sections( 'headless-config' );
+					submit_button();
+				?>
+
+			</form>
+		</div>
+	</div>
+
+	<?php
+}
+
 /** Register headless settings fields.
  *
  * @author WebDevStudios
