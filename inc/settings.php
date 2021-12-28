@@ -35,6 +35,24 @@ function register_settings() {
 }
 add_action( 'init', __NAMESPACE__ . '\register_settings' );
 
+
+/**
+ * Add headless settings page link.
+ *
+ * @author WebDevStudios
+ * @since NEXT
+ */
+function add_settings_link() {
+	add_options_page(
+		esc_html__( 'Headless Config', 'wds-headless-core' ),
+		esc_html__( 'Headless Config', 'wds-headless-core' ),
+		'edit_posts',
+		'headless-config',
+		__NAMESPACE__ . '\display_settings_page'
+	);
+}
+add_action( 'admin_menu', __NAMESPACE__ . '\add_settings_link' );
+
 /** Register headless settings fields.
  *
  * @author WebDevStudios
