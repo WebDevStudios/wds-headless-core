@@ -59,6 +59,46 @@ function add_settings_fields() {
 	);
 }
 add_action( 'admin_init', __NAMESPACE__ . '\add_settings_fields' );
+
+/** Display Error 404 Page input.
+ *
+ * @author WebDevStudios
+ * @since NEXT
+ */
+function display_error_404_page() {
+	if ( ! defined( 'WDS_HEADLESS_CORE_OPTION_NAME' ) ) {
+		return;
+	}
+
+	$field_id      = 'error_404_page';
+	$options       = get_option( WDS_HEADLESS_CORE_OPTION_NAME );
+	$selected_page = $options[ $field_id ] ?? '';
+	$pages         = get_posts(
+		[
+			'numberposts' => -1,
+			'post_type'   => 'page',
+			'post_status' => 'publish',
+		]
+	);
+	?>
+
+	<div>
+	<p style="margin: 0 0 1rem 0; font-style: italic;"><?php esc_html_e( 'Optional. Select a custom 404 page. The content entered on this page will appear on the headless frontend.', 'wds-headless-core' ); ?></p>
+	<select id="<?php echo esc_attr( $field_id ); ?>" name="<?php echo esc_attr( $field_id ); ?>">
+		<option><?php esc_html_e( '-- Select page --', 'wds-headless-core' ); ?></option>
+
+	<?php foreach ( $pages as $page ) : ?>
+
+		<option value="<?php esc_attr( $page->ID ); ?>" <?php echo esc_html( $selected_page === $page->ID ? 'checked="checked"' : '' ); ?>><?php echo esc_attr( $page->post_title ); ?></option>
+
+		<?php endforeach; ?>
+
+	</select>
+	</div>
+
+	 <?php
+}
+
 /**
  * Customize ACF JSON loader.
  *
