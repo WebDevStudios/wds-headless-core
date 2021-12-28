@@ -22,9 +22,11 @@ function register_settings() {
 		return;
 	}
 
+	$option_name = WDS_HEADLESS_CORE_OPTION_NAME;
+
 	register_setting(
-		WDS_HEADLESS_CORE_OPTION_NAME,
-		'additional_settings',
+		"{$option_name}_group",
+		$option_name,
 		[
 			'description'       => esc_html__( 'Headless Config Settings', 'wds-headless-core' ),
 			'sanitize_callback' => __NAMESPACE__ . '\sanitize_settings',
@@ -72,7 +74,7 @@ function display_settings_page() {
 			<form method="post" action="options.php" enctype="multipart/form-data">
 
 				<?php
-					settings_fields( WDS_HEADLESS_CORE_OPTION_NAME );
+					settings_fields( WDS_HEADLESS_CORE_OPTION_NAME . '_group' );
 					do_settings_sections( 'headless-config' );
 					submit_button();
 				?>
