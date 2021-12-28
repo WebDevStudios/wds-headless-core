@@ -12,6 +12,29 @@
 namespace WDS_Headless_Core;
 
 /**
+ * Register custom headless settings.
+ *
+ * @author WebDevStudios
+ * @since NEXT
+ */
+function register_settings() {
+	if ( ! defined( 'WDS_HEADLESS_CORE_OPTION_NAME' ) ) {
+		return;
+	}
+
+	register_setting(
+		WDS_HEADLESS_CORE_OPTION_NAME,
+		'additional_settings',
+		[
+			'description'       => esc_html__( 'Headless Config Settings', 'wds-headless-core' ),
+			'sanitize_callback' => __NAMESPACE__ . '\sanitize_settings',
+			'type'              => 'array',
+		]
+	);
+
+}
+add_action( 'init', __NAMESPACE__ . '\register_settings' );
+/**
  * Customize ACF JSON loader.
  *
  * @author WebDevStudios
