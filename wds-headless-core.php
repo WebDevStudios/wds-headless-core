@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'WDS_HEADLESS_CORE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WDS_HEADLESS_CORE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WDS_HEADLESS_CORE_VERSION', '1.1.2' );
-define( 'WDS_HEADLESS_CORE_OPTION_NAME', 'wds_headless_core_settings' );
+define( 'WDS_HEADLESS_CORE_OPTION_NAME', 'headless_config' );
 
 // Register de/activation hooks.
 register_activation_hook( __FILE__, __NAMESPACE__ . '\activation_callback' );
