@@ -154,7 +154,7 @@ function display_error_404_page() {
 	}
 
 	$field_id      = 'error_404_page';
-	$option_name = WDS_HEADLESS_CORE_OPTION_NAME;
+	$option_name   = WDS_HEADLESS_CORE_OPTION_NAME;
 	$options       = get_option( $option_name );
 	$selected_page = $options[ $field_id ] ?? '';
 	$pages         = get_posts(
