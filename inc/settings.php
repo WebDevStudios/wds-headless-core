@@ -37,6 +37,38 @@ function register_settings() {
 }
 add_action( 'init', __NAMESPACE__ . '\register_settings' );
 
+/**
+ * Sanitize headless settings.
+ *
+ * @author WebDevStudios
+ * @since NEXT
+ * @param  array $input Settings inputs.
+ * @return array        Sanitized inputs.
+ */
+function sanitize_settings( $input ) {
+	$sanitized_input = [];
+	error_log( print_r( [ 'here', $input ], true ) );
+
+	if ( empty( $input ) ) {
+		return $sanitized_input;
+	}
+
+	foreach ( $input as $key => $value ) {
+		if ( $key === 'error_404_page' ) {
+			if ( is_nan( $value ) ) {
+				continue;
+			}
+
+			$sanitized_input[ $key ] = absint( $value );
+			continue;
+		}
+
+		$sanitized_input[ $key ] = sanitize_text_field( $value );
+	}
+	error_log( print_r( [ 'here', $sanitized_input ], true ) );
+
+	return $sanitized_input;
+}
 
 /**
  * Add headless settings page link.
