@@ -193,8 +193,6 @@ function migrate_settings() {
 	$option_name   = 'wds_headless_core_version';
 	$saved_version = get_option( $option_name );
 
-	error_log( print_r( [ $saved_version, WDS_HEADLESS_CORE_VERSION ], true ) );
-
 	if ( $saved_version === WDS_HEADLESS_CORE_VERSION ) {
 		return;
 	}
