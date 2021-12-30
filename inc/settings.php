@@ -47,7 +47,6 @@ add_action( 'init', __NAMESPACE__ . '\register_settings' );
  */
 function sanitize_settings( $input ) {
 	$sanitized_input = [];
-	error_log( print_r( [ 'here', $input ], true ) );
 
 	if ( empty( $input ) ) {
 		return $sanitized_input;
@@ -65,7 +64,6 @@ function sanitize_settings( $input ) {
 
 		$sanitized_input[ $key ] = sanitize_text_field( $value );
 	}
-	error_log( print_r( [ 'here', $sanitized_input ], true ) );
 
 	return $sanitized_input;
 }
