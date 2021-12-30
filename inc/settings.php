@@ -182,6 +182,40 @@ function display_error_404_page_input() {
 }
 
 /**
+ * Migrate settings from ACF on upgrade.
+ *
+ * @author WebDevStudios
+ * @since NEXT
+ */
+function migrate_settings() {
+	if ( ! defined( 'WDS_HEADLESS_CORE_VERSION' ) || ! defined( 'WDS_HEADLESS_CORE_OPTION_NAME' ) ) {
+		return;
+	}
+
+	$option_name   = 'wds_headless_core_version';
+	$saved_version = get_option( $option_name );
+
+	error_log( print_r( [ $saved_version, WDS_HEADLESS_CORE_VERSION ], true ) );
+
+	if ( $saved_version === WDS_HEADLESS_CORE_VERSION ) {
+		return;
+	}
+
+	update_option( $option_name, WDS_HEADLESS_CORE_VERSION );
+
+	// Retrieve old ACF settings.
+	$error_404_page = get_option( 'options_error_404_page' );
+	$error_404_page = is_nan( $error_404_page ) ? null : absint( $error_404_page );
+
+	if ( ! $error_404_page ) {
+		return;
+	}
+
+	update_option( WDS_HEADLESS_CORE_OPTION_NAME, [ 'error_404_page' => $error_404_page ] );
+}
+add_action( 'plugins_loaded', __NAMESPACE__ . '\migrate_settings' );
+
+/**
  * Customize ACF JSON loader.
  *
  * @author WebDevStudios
