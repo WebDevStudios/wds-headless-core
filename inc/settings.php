@@ -51,7 +51,7 @@ function sanitize_settings( $input ) {
 	}
 
 	foreach ( $input as $key => $value ) {
-		if ( $key === 'error_404_page' ) {
+		if ( 'error_404_page' === $key ) {
 			if ( is_nan( $value ) ) {
 				continue;
 			}
@@ -176,7 +176,7 @@ function display_error_404_page_input() {
 	</select>
 	</div>
 
-	 <?php
+	<?php
 }
 
 /**
@@ -193,7 +193,7 @@ function migrate_settings() {
 	$option_name   = 'wds_headless_core_version';
 	$saved_version = get_option( $option_name );
 
-	if ( $saved_version === WDS_HEADLESS_CORE_VERSION ) {
+	if ( WDS_HEADLESS_CORE_VERSION === $saved_version ) {
 		return;
 	}
 
