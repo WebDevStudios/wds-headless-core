@@ -183,3 +183,77 @@ function graphql_request_init() {
 	add_filter( 'registration_errors', __NAMESPACE__ . '\filter_registration_errors' );
 }
 add_action( 'init_graphql_request', __NAMESPACE__ . '\graphql_request_init' );
+
+/**
+ * Register custom headless settings with GraphQL.
+ * Mirrors GraphQL schema of original ACF headless settings to avoid breaking frontend queries.
+ *
+ * @author WebDevStudios
+ * @since NEXT
+ * @param object $type_registry The GraphQL type registry.
+ */
+function register_headless_settings( $type_registry ) {
+	if (
+		! function_exists( 'register_graphql_object_type' ) ||
+		! function_exists( 'register_graphql_field' ) ||
+		! function_exists( 'register_graphql_union_type' ) ||
+		! defined( 'WDS_HEADLESS_CORE_OPTION_NAME' ) ) {
+		return;
+	}
+
+	register_graphql_union_type(
+		'PageUnion',
+		[
+			'typeNames'   => [ 'Page' ],
+			'resolveType' => function( $post ) use ( $type_registry ) {
+				$post_type        = $post->post_type;
+				$post_type_object = get_post_type_object( $post_type );
+				$graphql_name     = $post_type_object->graphql_single_name ?? null;
+
+				return $type_registry->get_type( $graphql_name );
+			},
+		]
+	);
+
+	register_graphql_object_type(
+		'AdditionalSettings',
+		[
+			'description' => esc_html__( 'Headless config settings', 'wds-headless-core' ),
+			'fields'      => [
+				'error404Page' => [ 'type' => 'PageUnion' ],
+			],
+		]
+	);
+
+	register_graphql_object_type(
+		'HeadlessConfig',
+		[
+			'description' => esc_html__( 'Headless config', 'wds-headless-core' ),
+			'fields'      => [
+				'additionalSettings' => [ 'type' => 'AdditionalSettings' ],
+			],
+		]
+	);
+
+	register_graphql_field(
+		'RootQuery',
+		'headlessConfig',
+		[
+			'type'        => 'HeadlessConfig',
+			'description' => esc_html__( 'Connection between the RootQuery type and the headlessConfig type', 'wds-headless-core' ),
+			'resolve'     => function( $source, array $args, \WPGraphQL\AppContext $context ) {
+				$options           = get_option( WDS_HEADLESS_CORE_OPTION_NAME );
+				$error_404_page_id = $options['error_404_page'];
+				$error_404_page_id = is_nan( $error_404_page_id ) ? null : absint( $error_404_page_id );
+				$error_404_page    = $context->get_loader( 'post' )->load_deferred( $error_404_page_id );
+
+				return [
+					'additionalSettings' => [
+						'error404Page' => $error_404_page,
+					],
+				];
+			},
+		]
+	);
+}
+add_action( 'graphql_register_types', __NAMESPACE__ . '\register_headless_settings' );
