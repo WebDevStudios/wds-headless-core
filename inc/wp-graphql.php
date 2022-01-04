@@ -189,7 +189,7 @@ add_action( 'init_graphql_request', __NAMESPACE__ . '\graphql_request_init' );
  * Mirrors GraphQL schema of original ACF headless settings to avoid breaking frontend queries.
  *
  * @author WebDevStudios
- * @since NEXT
+ * @since 2.0.0
  * @param object $type_registry The GraphQL type registry.
  */
 function register_headless_settings( $type_registry ) {
