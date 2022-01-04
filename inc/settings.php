@@ -13,7 +13,7 @@ namespace WDS_Headless_Core;
  * Register custom headless settings.
  *
  * @author WebDevStudios
- * @since NEXT
+ * @since 2.0.0
  */
 function register_settings() {
 	if ( ! defined( 'WDS_HEADLESS_CORE_OPTION_NAME' ) ) {
@@ -39,7 +39,7 @@ add_action( 'init', __NAMESPACE__ . '\register_settings' );
  * Sanitize headless settings.
  *
  * @author WebDevStudios
- * @since NEXT
+ * @since 2.0.0
  * @param  array $input Settings inputs.
  * @return array        Sanitized inputs.
  */
@@ -70,7 +70,7 @@ function sanitize_settings( $input ) {
  * Add headless settings page link.
  *
  * @author WebDevStudios
- * @since NEXT
+ * @since 2.0.0
  */
 function add_settings_link() {
 	add_options_page(
@@ -87,7 +87,7 @@ add_action( 'admin_menu', __NAMESPACE__ . '\add_settings_link' );
  * Display headless settings page.
  *
  * @author WebDevStudios
- * @since NEXT
+ * @since 2.0.0
  */
 function display_settings_page() {
 	if ( ! defined( 'WDS_HEADLESS_CORE_OPTION_NAME' ) ) {
@@ -118,7 +118,7 @@ function display_settings_page() {
  * Register headless settings fields.
  *
  * @author WebDevStudios
- * @since NEXT
+ * @since 2.0.0
  */
 function add_settings_fields() {
 	// Custom page options.
@@ -144,7 +144,7 @@ add_action( 'admin_init', __NAMESPACE__ . '\add_settings_fields' );
  * Display Error 404 Page input.
  *
  * @author WebDevStudios
- * @since NEXT
+ * @since 2.0.0
  */
 function display_error_404_page_input() {
 	if ( ! defined( 'WDS_HEADLESS_CORE_OPTION_NAME' ) ) {
@@ -185,7 +185,7 @@ function display_error_404_page_input() {
  * Migrate settings from ACF on upgrade.
  *
  * @author WebDevStudios
- * @since NEXT
+ * @since 2.0.0
  */
 function migrate_settings() {
 	if ( ! defined( 'WDS_HEADLESS_CORE_VERSION' ) || ! defined( 'WDS_HEADLESS_CORE_OPTION_NAME' ) ) {
