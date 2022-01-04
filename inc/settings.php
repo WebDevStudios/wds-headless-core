@@ -114,7 +114,8 @@ function display_settings_page() {
 	<?php
 }
 
-/** Register headless settings fields.
+/**
+ * Register headless settings fields.
  *
  * @author WebDevStudios
  * @since NEXT
@@ -139,7 +140,8 @@ function add_settings_fields() {
 }
 add_action( 'admin_init', __NAMESPACE__ . '\add_settings_fields' );
 
-/** Display Error 404 Page input.
+/**
+ * Display Error 404 Page input.
  *
  * @author WebDevStudios
  * @since NEXT
