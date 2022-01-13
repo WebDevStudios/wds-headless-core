@@ -107,12 +107,13 @@ function set_headless_rest_preview_link( WP_REST_Response $response, WP_Post $po
 		$base_url = HEADLESS_FRONTEND_URL;
 
 		// Handle special-case pages.
-		$error_page = get_field( 'error_404_page', 'option' );
+		$options    = get_option( WDS_HEADLESS_CORE_OPTION_NAME );
+		$error_page = is_array( $options ) ? $options['error_404_page'] : null;
 
 		// Remove excess slash from end of frontend domain.
 		$base_url = rtrim( $base_url, '/' );
 
-		if ( $post->ID === $error_page->ID ) {
+		if ( $error_page && $post->ID === $error_page->ID ) {
 
 			// Return 404 URL for error page.
 			$response->data['link'] = "{$base_url}/404";
