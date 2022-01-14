@@ -257,3 +257,44 @@ function register_headless_settings( $type_registry ) {
 	);
 }
 add_action( 'graphql_register_types', __NAMESPACE__ . '\register_headless_settings' );
+
+/**
+ * Register Gravatar URL with GraphQL.
+ *
+ * @author WebDevStudios
+ * @since 2.1.0
+ */
+function register_gravatar_url() {
+	register_graphql_field(
+		'Commenter',
+		'gravatarUrl',
+		[
+			'type'        => 'String',
+			'description' => esc_html__( 'Adds a Gravatar URL to the Comment Author', 'wds-headless-core' ),
+			'resolve'     => function( \WPGraphQL\Model\CommentAuthor $comment_author, $args, $context, $info ) {
+
+				// Get the comment ID.
+				$comment_id = $comment_author->__get( 'databaseId' );
+
+				// Fetch the comment.
+				$comment_obj = get_comment( $comment_id );
+
+				// Set avatar args.
+				$args = [
+					'size' => '150',
+				];
+
+				// Fetch the gravatar url.
+				$gravatar_url = get_avatar_url( $comment_obj, $args );
+
+				// In case something goes wrong, fallback to the mystery person avatar.
+				if ( false === $gravatar_url ) {
+					$gravatar_url = "https://secure.gravatar.com/avatar/5cf23001579ee91aff54a2dcd6e5acc9?s={$args['size']}&d=mm&r=g";
+				}
+
+				return $gravatar_url;
+			},
+		]
+	);
+}
+add_action( 'graphql_register_types', __NAMESPACE__ . '\register_gravatar_url' );
