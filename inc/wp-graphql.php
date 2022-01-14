@@ -274,7 +274,7 @@ function register_gravatar_url() {
 			'resolve'     => function( \WPGraphQL\Model\CommentAuthor $comment_author, $args, $context, $info ) {
 
 				// Get the commenter email.
-				$commenter_email = $comment_author->__get('email');
+				$commenter_email = $comment_author->__get( 'email' );
 
 				// Set avatar args.
 				$args = [
