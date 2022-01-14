@@ -262,7 +262,7 @@ add_action( 'graphql_register_types', __NAMESPACE__ . '\register_headless_settin
  * Register Gravatar URL with GraphQL.
  *
  * @author WebDevStudios
- * @since 2.0.0
+ * @since 2.1.0
  */
 function register_gravatar_url() {
 	register_graphql_field(
