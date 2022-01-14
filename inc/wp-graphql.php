@@ -273,8 +273,11 @@ function register_gravatar_url() {
 			'description' => esc_html__( 'Adds a Gravatar URL to the Comment Author', 'wds-headless-core' ),
 			'resolve'     => function( \WPGraphQL\Model\CommentAuthor $comment_author, $args, $context, $info ) {
 
-				// Get the commenter email.
-				$commenter_email = $comment_author->__get( 'email' );
+				// Get the comment ID.
+				$comment_id = $comment_author->__get( 'databaseId' );
+
+				// Fetch the comment.
+				$comment_obj = get_comment( $comment_id );
 
 				// Set avatar args.
 				$args = [
@@ -282,7 +285,7 @@ function register_gravatar_url() {
 				];
 
 				// Fetch the gravatar url.
-				$gravatar_url = get_avatar_url( $commenter_email, $args );
+				$gravatar_url = get_avatar_url( $comment_obj, $args );
 
 				// In case something goes wrong, fallback to the mystery person avatar.
 				if ( false === $gravatar_url ) {
