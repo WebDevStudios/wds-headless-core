@@ -274,22 +274,22 @@ function register_gravatar_url() {
 			'resolve'     => function( \WPGraphQL\Model\Comment $comment, $args, $context, $info ) {
 
 				// Get the commentId.
-				$comment_id  = $comment->__get( 'commentId' );
+				$comment_id = $comment->__get( 'commentId' );
 
 				// Fetch the comment.
 				$comment_obj = get_comment( $comment_id );
 
 				// Set avatar args.
 				$args = [
-					"size" => "150",
+					'size' => '150',
 				];
 
 				// Fetch the gravatar url.
 				$gravatar_url = get_avatar_url( $comment_obj, $args );
 
 				// In case something goes wrong, fallback to the mystery person avatar.
-				if ( $gravatar_url === false ) {
-					$gravatar_url = 'https://secure.gravatar.com/avatar/5cf23001579ee91aff54a2dcd6e5acc9?s=' . $args[size] . '&d=mm&r=g';
+				if ( false === $gravatar_url ) {
+					$gravatar_url = "https://secure.gravatar.com/avatar/5cf23001579ee91aff54a2dcd6e5acc9?s={$args['size']}&d=mm&r=g";
 				}
 
 				return $gravatar_url;
