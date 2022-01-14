@@ -271,7 +271,7 @@ function register_gravatar_url() {
 		[
 			'type'        => 'String',
 			'description' => esc_html__( 'Adds a Gravatar URL to the Comment Author', 'wds-headless-core' ),
-			'resolve'     => function( \WPGraphQL\Model\CommentAuthor $comment_author, $args, $context, $info ) {
+			'resolve'     => function( $comment_author, $args, $context, $info ) {
 
 				// Get the comment ID.
 				$comment_id = $comment_author->__get( 'databaseId' );
