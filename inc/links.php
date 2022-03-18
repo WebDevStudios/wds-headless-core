@@ -113,7 +113,7 @@ function set_headless_rest_preview_link( WP_REST_Response $response, WP_Post $po
 		// Remove excess slash from end of frontend domain.
 		$base_url = rtrim( $base_url, '/' );
 
-		if ( $error_page && $post->ID === $error_page->ID ) {
+		if ( $error_page && $post->ID === $error_page ) {
 
 			// Return 404 URL for error page.
 			$response->data['link'] = "{$base_url}/404";
