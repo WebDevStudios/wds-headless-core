@@ -13,12 +13,15 @@
 	"config": {
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"platform": {
+			"php": "7.4"
 		}
 	},
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.7",
 		"phpcompatibility/phpcompatibility-wp": "^2.1",
-		"wp-cli/wp-cli-bundle": "^2.5",
+		"wp-cli/wp-cli-bundle": "^2.6",
 		"wp-coding-standards/wpcs": "^2.3"
 	},
 	"scripts": {
