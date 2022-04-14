@@ -12,6 +12,57 @@ namespace WDS_Headless_Core;
 use \WP_Post;
 use \WP_REST_Response;
 
+
+/**
+ * Flush the frontend cache when a post is updated.
+ *
+ * @see https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#using-on-demand-revalidation
+ * @since 2.1.3
+ * @author WebDevStudios
+ */
+function on_demand_revalidation() {
+
+	// These constsants are required. If they're not here, bail...
+	if ( ! defined( 'HEADLESS_FRONTEND_URL' ) || ! defined( 'PREVIEW_SECRET_TOKEN' ) ) {
+		return;
+	}
+
+	// Attempt to get post object.
+	$post = get_post();
+
+	// No post object? Bail...
+	if ( ! $post ) {
+		return;
+	}
+
+	// Define the post slug.
+	$slug = str_replace( HEADLESS_FRONTEND_URL, '', get_the_permalink( $post->ID ) );
+
+	// No slug? Bail...
+	if ( ! $slug ) {
+		return;
+	}
+
+	// Send the POST request to the frontend.
+	wp_remote_post(
+		HEADLESS_FRONTEND_URL . 'api/wordpress/revalidate',
+		[
+			'blocking' => true,
+			'headers'  => [
+				'Content-Type' => 'application/json',
+				'Expect'       => '',
+			],
+			'body'     => wp_json_encode(
+				[
+					'secret' => PREVIEW_SECRET_TOKEN,
+					'slug'   => "/${slug}",
+				]
+			),
+		]
+	);
+}
+add_action( 'post_updated', __NAMESPACE__ . '\on_demand_revalidation', 10, 3 );
+
 /**
  * Customize the preview button in the WordPress admin to point to the headless client.
  *
