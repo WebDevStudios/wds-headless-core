@@ -5,7 +5,7 @@
  * Description: The core WordPress plugin for the Next.js WordPress Starter.
  * Author: WebDevStudios <contact@webdevstudios.com>
  * Author URI: https://webdevstudios.com
- * Version: 2.1.2
+ * Version: 2.1.3
  * Requires at least: 5.6
  * Requires PHP: 7.4
  * License: GPL-2
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Define constants.
 define( 'WDS_HEADLESS_CORE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WDS_HEADLESS_CORE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'WDS_HEADLESS_CORE_VERSION', '2.1.0' );
+define( 'WDS_HEADLESS_CORE_VERSION', '2.1.3' );
 define( 'WDS_HEADLESS_CORE_OPTION_NAME', 'headless_config' );
 
 // Register de/activation hooks.
