@@ -6,6 +6,7 @@
  * @package WDS_Headless_Core
  * @since 2.1.3
  */
+
 namespace WDS_Headless_Core;
 
 use \WP_Post;
@@ -20,20 +21,18 @@ use \WP_Post;
  * @see https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#using-on-demand-revalidation
  * @since 2.1.3
  * @author WebDevStudios
- * @param int $post_ID  The post ID.
+ * @param int     $post_ID  The post ID.
  * @param WP_Post $post The post object.
  */
 function on_demand_revalidation( $post_ID, WP_Post $post ) {
 
 	// These constsants are required. If they're not here, bail...
 	if ( ! defined( 'HEADLESS_FRONTEND_URL' ) || ! defined( 'PREVIEW_SECRET_TOKEN' ) ) {
-		error_log( 'Missing constants for on demand revalidation.' );
 		return;
 	}
 
 	// No post ID? Bail...
 	if ( ! $post_ID ) {
-		error_log( 'Missing post ID for on demand revalidation.' );
 		return;
 	}
 
@@ -42,7 +41,6 @@ function on_demand_revalidation( $post_ID, WP_Post $post ) {
 
 	// No slug? Bail...
 	if ( ! $slug ) {
-		error_log( 'Missing post slug for on demand revalidation.' );
 		return;
 	}
 
@@ -55,7 +53,7 @@ function on_demand_revalidation( $post_ID, WP_Post $post ) {
 				'Content-Type' => 'application/json',
 				'Expect'       => '',
 			],
-			'body' => wp_json_encode(
+			'body'     => wp_json_encode(
 				[
 					'secret' => PREVIEW_SECRET_TOKEN,
 					'slug'   => "/${slug}",
@@ -68,8 +66,8 @@ function on_demand_revalidation( $post_ID, WP_Post $post ) {
 	$response_code = wp_remote_retrieve_response_code( $response );
 
 	// If there is an error, log it.
-	if ( $response_code !== 200 ) {
-		error_log( 'Failed to revalidate cache for post ' . $slug . '.' );
+	if ( 200 !== $response_code ) {
+		return;
 	}
 }
 add_action( 'edit_post', __NAMESPACE__ . '\on_demand_revalidation', 10, 3 );
