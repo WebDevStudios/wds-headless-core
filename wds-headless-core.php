@@ -26,6 +26,9 @@ define( 'WDS_HEADLESS_CORE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'WDS_HEADLESS_CORE_VERSION', '2.1.4' );
 define( 'WDS_HEADLESS_CORE_OPTION_NAME', 'headless_config' );
 
+require_once WDS_HEADLESS_CORE_PLUGIN_DIR . 'activation.php';
+require_once WDS_HEADLESS_CORE_PLUGIN_DIR . 'deactivation.php';
+
 // Register de/activation hooks.
 register_activation_hook( __FILE__, __NAMESPACE__ . '\activation_callback' );
 register_deactivation_hook( __FILE__, __NAMESPACE__ . '\deactivation_callback' );
