@@ -13,9 +13,10 @@ For the latest on our projects and developments, please visit https://webdevstud
 Thank you for your support and contributions over the years. We hope you continue to find value in our past work and join us in our new ventures.
 
 WebDevStudios / WD3, LLC
-==================================
 
-The core WordPress plugin for the Next.js WordPress Starter. Please see <https://webdevstudios.github.io/nextjs-wordpress-starter/> for more information.
+------------------------------------------------------------
+The core WordPress plugin for the Next.js WordPress Starter. 
+Please see <https://webdevstudios.github.io/nextjs-wordpress-starter/> for more information.
 
 ## Install
 
